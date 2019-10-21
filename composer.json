@@ -1,0 +1,20 @@
+{
+  "name": "daht/appleid-login-check-jwt",
+  "description": "方便AppleId登录后验证JWT有效性",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "daht",
+      "email": "daht740@gmail.com"
+    }
+  ],
+  "require": {
+    "chenbool/jwt": "^1.0.0",
+    "codercat/jwk-to-pem": "^0.0.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Daht\\AppleIdLogin\\": "src/"
+    }
+  }
+}
