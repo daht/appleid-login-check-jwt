@@ -9,8 +9,7 @@
     }
   ],
   "require": {
-    "chenbool/jwt": "^1.0.0",
-    "codercat/jwk-to-pem": "^0.0.3"
+    "firebase/php-jwt": "^5.2"
   },
   "autoload": {
     "psr-4": {

@@ -1,23 +1,32 @@
 <?php
+
 namespace Daht\AppleIdLogin;
 
-use chenbool\JWT\JWT;
-use CoderCat\JWKToPEM\JWKConverter;
+use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
 
 class AppleIdJWTCheck
 {
-    private  $pubilcKey = "";
+    private $keys = [];
 
     function __construct()
     {
-        $jwk = json_decode(file_get_contents('https://appleid.apple.com/auth/keys'), 1)['keys'][0];
-        $jwkConverter = new JWKConverter();
-        $this->pubilcKey =  $jwkConverter->toPEM($jwk);
+        $this->keys = JWK::parseKeySet(json_decode(file_get_contents('https://appleid.apple.com/auth/keys'), true));
     }
 
-    public function check($identityToken){
-        $decoded = JWT::decode($identityToken, $this->pubilcKey, array('RS256'));
-        $decoded_array = (array)$decoded;
-        return  json_encode($decoded_array);
+    function getKeys()
+    {
+        return $this->keys;
+    }
+
+    public function check($identityToken)
+    {
+        foreach ($this->keys as $key) {
+            try {
+                return (array)JWT::decode($identityToken, $key, array('RS256'));
+            } catch (\Exception $exception) {
+            }
+        }
+        return [];
     }
 }
